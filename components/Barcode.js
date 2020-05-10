@@ -9,7 +9,7 @@ let datas = [["Date", "Operator Name", "Project Number", "Equipment ID", "Expira
 export default class AppContainer extends React.Component {
   state = {
     scanned: false,
-    hasPermission: false,
+    hasPermission: null,
   }
   export = async () => {
     let csvContent = "";
