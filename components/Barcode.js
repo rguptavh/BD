@@ -15,7 +15,7 @@ export default class AppContainer extends React.Component {
     let csvContent = "";
     console.log(JSON.stringify(datas))
     datas.forEach(function (rowArray) {
-      let row = rowArray.join(",");
+      let row = rowArray.join(" ");
       csvContent += row + "\r\n";
     });
     let fileUri = FileSystem.documentDirectory + "Data.csv";
