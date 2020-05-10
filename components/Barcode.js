@@ -1,6 +1,6 @@
 import React from 'react'
 import * as FileSystem from 'expo-file-system';
-import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
+import { Text, View, StyleSheet, Button} from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import * as Sharing from 'expo-sharing';
 import moment from 'moment';

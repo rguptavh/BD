@@ -1,8 +1,5 @@
 import React from 'react'
-import * as FileSystem from 'expo-file-system';
 import { Text, View, StyleSheet, TextInput, TouchableOpacity, Dimensions, TouchableWithoutFeedback, KeyboardAvoidingView, Keyboard, Image } from 'react-native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
-import * as Sharing from 'expo-sharing';
 
 const entireScreenHeight = Dimensions.get('window').height;
 const rem = entireScreenHeight / 380;
