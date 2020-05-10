@@ -1,11 +1,15 @@
 import React from 'react'
 import * as FileSystem from 'expo-file-system';
-import { Text, View, StyleSheet, Button} from 'react-native';
+import { Text, View, StyleSheet, Button, Dimensions} from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import * as Sharing from 'expo-sharing';
 import moment from 'moment';
 
 let datas = [["Date", "Operator Name", "Project Number", "Equipment ID", "Expiration Date", "Expired?"]]
+const entireScreenHeight = Dimensions.get('window').height;
+const rem = entireScreenHeight / 380;
+const entireScreenWidth = Dimensions.get('window').width;
+const wid = entireScreenWidth / 380;
 export default class AppContainer extends React.Component {
   state = {
     scanned: false,
@@ -18,7 +22,10 @@ export default class AppContainer extends React.Component {
       let row = rowArray.join(" ");
       csvContent += row + "\r\n";
     });
-    let fileUri = FileSystem.documentDirectory + "Data.csv";
+    var date = "" + moment().format('MMMM Do YYYY, h:mm:ss A');
+    console.log(date)
+    let fileUri = FileSystem.documentDirectory + encodeURI("Data - " + date +  ".csv")
+    console.log(fileUri)
     await FileSystem.writeAsStringAsync(fileUri, csvContent);
     Sharing.shareAsync(fileUri)
   }
@@ -36,13 +43,17 @@ export default class AppContainer extends React.Component {
     };
 
     if (this.state.hasPermission === null) {
-      return <Text>Requesting for camera permission</Text>;
+      return (
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems:'center'}}>
+          <Text style = {{fontSize:wid*15}}>Requesting Camera Permissions</Text>
+        </View>
+      );
     }
     if (this.state.hasPermission === false) {
       alert("Please Enable Camera Permissions")
       return (
-        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }}>
-          <Text style = {{fontSize:30}}>No access to camera</Text>
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems:'center'}}>
+          <Text style = {{fontSize:wid*15}}>No access to camera</Text>
         </View>
       );
     }
