@@ -14,7 +14,7 @@ export default class AppContainer extends React.Component {
   export = async () => {
     let csvContent = "";
     console.log(JSON.stringify(datas))
-    datas.forEach(function(rowArray) {
+    datas.forEach(function (rowArray) {
       let row = rowArray.join(",");
       csvContent += row + "\r\n";
     });
@@ -22,44 +22,49 @@ export default class AppContainer extends React.Component {
     await FileSystem.writeAsStringAsync(fileUri, csvContent);
     Sharing.shareAsync(fileUri)
   }
-  async componentDidMount(){
+  async componentDidMount() {
     const { status } = await BarCodeScanner.requestPermissionsAsync();
-    this.setState({hasPermission: status === 'granted'})
+    this.setState({ hasPermission: status === 'granted' })
   }
-  render(){
+  render() {
     const handleBarCodeScanned = ({ type, data }) => {
       var items = data.split(",");
-      console.log(moment().diff(moment(items[1],'MM-DD-YYYY'), 'days'))
-      datas.push([moment().format('MM-DD-YYYY'), global.uname,global.project,items[0],items[1],moment().isSameOrAfter(moment(items[1],'MM-DD-YYYY')) ? 'Yes' : 'No'])
-      this.setState({scanned: true})
+      console.log(moment().diff(moment(items[1], 'MM-DD-YYYY'), 'days'))
+      datas.push([moment().format('MM-DD-YYYY'), global.uname, global.project, items[0], items[1], moment().isSameOrAfter(moment(items[1], 'MM-DD-YYYY')) ? 'Yes' : 'No'])
+      this.setState({ scanned: true })
       alert('Scanned!');
     };
-  
+
     if (this.state.hasPermission === null) {
       return <Text>Requesting for camera permission</Text>;
     }
     if (this.state.hasPermission === false) {
-      return <Text>No access to camera</Text>;
+      alert("Please Enable Camera Permissions")
+      return (
+        <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }}>
+          <Text style = {{fontSize:30}}>No access to camera</Text>
+        </View>
+      );
     }
-return(
-  
-<View
-      style={{
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-      }}>
-      <BarCodeScanner
-        onBarCodeScanned={this.state.scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
-      />
+    return (
 
-      {this.state.scanned && (
-        <Button title={'Tap to Scan Again'} onPress={() => this.setState({scanned: false})} />
-      )}
-       <Button title={'Tap to Export Data'} onPress={() => this.export()} />
-       <View style = {{height:'2%'}}></View>
-    </View>
-);  
-}
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+        }}>
+        <BarCodeScanner
+          onBarCodeScanned={this.state.scanned ? undefined : handleBarCodeScanned}
+          style={StyleSheet.absoluteFillObject}
+        />
+
+        {this.state.scanned && (
+          <Button title={'Tap to Scan Again'} onPress={() => this.setState({ scanned: false })} />
+        )}
+        <Button title={'Tap to Export Data'} onPress={() => this.export()} />
+        <View style={{ height: '2%' }}></View>
+      </View>
+    );
+  }
 }
