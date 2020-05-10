@@ -19,7 +19,7 @@ export default class AppContainer extends React.Component {
     let csvContent = "";
     console.log(JSON.stringify(datas))
     datas.forEach(function (rowArray) {
-      let row = rowArray.join(" ");
+      let row = rowArray.join(",");
       csvContent += row + "\r\n";
     });
     var date = "" + moment().format('MMMM Do YYYY, h:mm:ss A');
@@ -35,7 +35,7 @@ export default class AppContainer extends React.Component {
   }
   render() {
     const handleBarCodeScanned = ({ type, data }) => {
-      var items = data.split(",");
+      var items = data.split(" ");
       console.log(moment().diff(moment(items[1], 'MM-DD-YYYY'), 'days'))
       datas.push([moment().format('MM-DD-YYYY'), global.uname, global.project, items[0], items[1], moment().isSameOrAfter(moment(items[1], 'MM-DD-YYYY')) ? 'Yes' : 'No'])
       this.setState({ scanned: true })

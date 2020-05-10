@@ -22,7 +22,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+	"bundleIdentifier": "com.rguptavh.bd",
+      "buildNumber": "1.0.0"
     }
   }
 }
